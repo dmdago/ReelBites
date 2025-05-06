@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ReelBites.ViewModels"
+             xmlns:model="clr-namespace:ReelBites.Models"
+             x:Class="ReelBites.Views.ExplorePage"
+             x:DataType="{x:Type vm:ExploreViewModel}"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CategoryButtonStyle" TargetType="Button">
+                <Setter Property="BorderColor" Value="#6200EA" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="Padding" Value="15,8" />
+                <Setter Property="Margin" Value="5,0" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="#6200EA" />
+            </Style>
+
+            <Style x:Key="SelectedCategoryButtonStyle" TargetType="Button">
+                <Setter Property="BorderColor" Value="#6200EA" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="Padding" Value="15,8" />
+                <Setter Property="Margin" Value="5,0" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="BackgroundColor" Value="#6200EA" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+
+            <Style x:Key="DramaCardStyle" TargetType="Frame">
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="8,5" />
+                <Setter Property="BackgroundColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,*">
+        <!-- Header -->
+        <Grid Grid.Row="0" 
+              BackgroundColor="#6200EA" 
+              Padding="15,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Frame Grid.Column="0"
+                   BackgroundColor="#7F42FF"
+                   CornerRadius="20"
+                   HasShadow="False"
+                   Padding="15,0"
+                   HeightRequest="40"
+                   VerticalOptions="Center">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Image Grid.Column="0"
+                           Source="search_icon.png"
+                           HeightRequest="20"
+                           WidthRequest="20"
+                           VerticalOptions="Center"/>
+                    <Entry Grid.Column="1"
+                           Text="{Binding SearchQuery}"
+                           Placeholder="Search dramas, tags, or users..."
+                           PlaceholderColor="#CCCCCC"
+                           TextColor="White"
+                           VerticalOptions="Center"
+                           BackgroundColor="Transparent"
+                           ReturnCommand="{Binding SearchCommand}"/>
+                </Grid>
+            </Frame>
+
+            <Button Grid.Column="1"
+                    Text="Search"
+                    Command="{Binding SearchCommand}"
+                    BackgroundColor="White"
+                    TextColor="#6200EA"
+                    CornerRadius="20"
+                    Padding="15,0"
+                    Margin="10,0,0,0"/>
+        </Grid>
+
+        <!-- Categories -->
+        <ScrollView Grid.Row="1" 
+                    Orientation="Horizontal" 
+                    Margin="0,10,0,10">
+            <HorizontalStackLayout Spacing="5" Padding="10,0">
+                <Button Text="All"
+                        Style="{Binding SelectedCategory, Converter={StaticResource StringEqualConverter}, ConverterParameter='All', FallbackValue={StaticResource CategoryButtonStyle}, TargetNullValue={StaticResource SelectedCategoryButtonStyle}}"
+                        Command="{Binding SelectCategoryCommand}"
+                        CommandParameter="All"/>
+
+                <Button Text="Comedy"
+                        Style="{Binding SelectedCategory, Converter={StaticResource StringEqualConverter}, ConverterParameter='Comedy', FallbackValue={StaticResource CategoryButtonStyle}, TargetNullValue={StaticResource CategoryButtonStyle}}"
+                        Command="{Binding SelectCategoryCommand}"
+                        CommandParameter="Comedy"/>
+
+                <Button Text="Romance"
+                        Style="{Binding SelectedCategory, Converter={StaticResource StringEqualConverter}, ConverterParameter='Romance', FallbackValue={StaticResource CategoryButtonStyle}, TargetNullValue={StaticResource CategoryButtonStyle}}"
+                        Command="{Binding SelectCategoryCommand}"
+                        CommandParameter="Romance"/>
+
+                <Button Text="Thriller"
+                        Style="{Binding SelectedCategory, Converter={StaticResource StringEqualConverter}, ConverterParameter='Thriller', FallbackValue={StaticResource CategoryButtonStyle}, TargetNullValue={StaticResource CategoryButtonStyle}}"
+                        Command="{Binding SelectCategoryCommand}"
+                        CommandParameter="Thriller"/>
+
+                <Button Text="Mystery"
+                        Style="{Binding SelectedCategory, Converter={StaticResource StringEqualConverter}, ConverterParameter='Mystery', FallbackValue={StaticResource CategoryButtonStyle}, TargetNullValue={StaticResource CategoryButtonStyle}}"
+                        Command="{Binding SelectCategoryCommand}"
+                        CommandParameter="Mystery"/>
+
+                <Button Text="Fantasy"
+                        Style="{Binding SelectedCategory, Converter={StaticResource StringEqualConverter}, ConverterParameter='Fantasy', FallbackValue={StaticResource CategoryButtonStyle}, TargetNullValue={StaticResource CategoryButtonStyle}}"
+                        Command="{Binding SelectCategoryCommand}"
+                        CommandParameter="Fantasy"/>
+
+                <Button Text="SciFi"
+                        Style="{Binding SelectedCategory, Converter={StaticResource StringEqualConverter}, ConverterParameter='SciFi', FallbackValue={StaticResource CategoryButtonStyle}, TargetNullValue={StaticResource CategoryButtonStyle}}"
+                        Command="{Binding SelectCategoryCommand}"
+                        CommandParameter="SciFi"/>
+
+                <Button Text="Historical"
+                        Style="{Binding SelectedCategory, Converter={StaticResource StringEqualConverter}, ConverterParameter='Historical', FallbackValue={StaticResource CategoryButtonStyle}, TargetNullValue={StaticResource CategoryButtonStyle}}"
+                        Command="{Binding SelectCategoryCommand}"
+                        CommandParameter="Historical"/>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- Results -->
+        <RefreshView Grid.Row="2" 
+                     Command="{Binding LoadDramasCommand}" 
+                     IsRefreshing="{Binding IsBusy}">
+            <CollectionView ItemsSource="{Binding Dramas}"
+                            SelectionMode="Single"
+                            SelectionChangedCommand="{Binding DramaTappedCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" 
+                                     Span="2"
+                                     VerticalItemSpacing="10"
+                                     HorizontalItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.EmptyView>
+                    <StackLayout VerticalOptions="Center" 
+                                HorizontalOptions="Center" 
+                                Padding="20">
+                        <Image Source="search_empty.png"
+                               HeightRequest="100"
+                               WidthRequest="100"/>
+                        <Label Text="{Binding EmptyMessage}"
+                               FontSize="16"
+                               TextColor="Gray"
+                               HorizontalOptions="Center"
+                               Margin="0,15,0,0"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Drama">
+                        <Frame Style="{StaticResource DramaCardStyle}" HeightRequest="200">
+                            <Grid RowDefinitions="*, Auto">
+                                <Image Grid.Row="0"
+                                     Source="{Binding CoverImageUrl}"
+                                     Aspect="AspectFill"
+                                     HeightRequest="130"/>
+
+                                <Grid Grid.Row="1" Padding="10,8" RowDefinitions="Auto,Auto">
+                                    <Label Grid.Row="0"
+                                         Text="{Binding Title}"
+                                         FontAttributes="Bold"
+                                         LineBreakMode="TailTruncation"
+                                         MaxLines="1" />
+
+                                    <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto" Margin="0,5,0,0">
+                                        <Grid Grid.Column="0" ColumnDefinitions="Auto,Auto" Margin="0,0,15,0">
+                                            <Image Grid.Column="0"
+                                                 Source="heart_icon.png"
+                                                 HeightRequest="16"
+                                                 WidthRequest="16"
+                                                 VerticalOptions="Center"/>
+
+                                            <Label Grid.Column="1"
+                                                 Text="{Binding LikesCount}"
+                                                 FontSize="12"
+                                                 TextColor="Gray"
+                                                 VerticalOptions="Center"
+                                                 Margin="3,0,0,0" />
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto">
+                                            <Image Grid.Column="0"
+                                                 Source="comment_icon.png"
+                                                 HeightRequest="16"
+                                                 WidthRequest="16"
+                                                 VerticalOptions="Center"/>
+
+                                            <Label Grid.Column="1"
+                                                 Text="{Binding CommentsCount}"
+                                                 FontSize="12"
+                                                 TextColor="Gray"
+                                                 VerticalOptions="Center"
+                                                 Margin="3,0,0,0" />
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.Footer>
+                    <Button Text="Load More" 
+                           Command="{Binding LoadMoreCommand}"
+                           IsVisible="{Binding HasMoreItems}"
+                           BackgroundColor="#6200EA"
+                           TextColor="White"
+                           CornerRadius="20"
+                           HorizontalOptions="Center"
+                           Margin="0,10,0,20"/>
+                </CollectionView.Footer>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

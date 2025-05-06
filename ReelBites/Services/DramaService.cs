@@ -198,5 +198,38 @@ namespace ReelBites.Services
                 return false;
             }
         }
+        public async Task<List<Drama>> GetAllDramasAsync(int page = 1, int pageSize = 20)
+        {
+            try
+            {
+                return await _dramaApi.GetAllDramasAsync(page, pageSize);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting all dramas: {ex.Message}");
+                return new List<Drama>();
+            }
+        }
+
+        public async Task<List<Drama>> SearchDramasAsync(string query, string category = "All", int page = 1, int pageSize = 20)
+        {
+            try
+            {
+                // Convertir la categoría a enum si no es "All"
+                DramaCategory? categoryEnum = null;
+                if (category != "All")
+                {
+                    categoryEnum = (DramaCategory)Enum.Parse(typeof(DramaCategory), category);
+                }
+
+                return await _dramaApi.SearchDramasAsync(query, categoryEnum, page, pageSize);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error searching dramas: {ex.Message}");
+                return new List<Drama>();
+            }
+        }
+
     }
 }

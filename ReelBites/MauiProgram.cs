@@ -41,7 +41,7 @@ public static class MauiProgram
         builder.Services.AddTransient<DramaDetailsViewModel>();
         builder.Services.AddTransient<ProfileViewModel>();
         //builder.Services.AddTransient<CreateDramaViewModel>();
-        //builder.Services.AddTransient<ExploreViewModel>();
+        builder.Services.AddTransient<ExploreViewModel>();
         //builder.Services.AddTransient<NotificationsViewModel>();
         //builder.Services.AddTransient<LoginViewModel>();
         //builder.Services.AddTransient<RegisterViewModel>();

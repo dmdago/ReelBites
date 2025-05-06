@@ -75,6 +75,9 @@
 	  <Compile Update="Views\CreateDramaPage.xaml.cs">
 	    <DependentUpon>CreateDramaPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\ExplorePage.xaml.cs">
+	    <DependentUpon>ExplorePage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\ProfilePage.xaml.cs">
 	    <DependentUpon>ProfilePage.xaml</DependentUpon>
 	  </Compile>
@@ -82,6 +85,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\DramaDetailsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ExplorePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProfilePage.xaml">

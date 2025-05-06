@@ -229,5 +229,46 @@ namespace ReelBites.Data
                 return false;
             }
         }
+
+        public async Task<List<Drama>> GetAllDramasAsync(int page = 1, int pageSize = 20)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"{_baseUrl}/dramas?page={page}&pageSize={pageSize}");
+                response.EnsureSuccessStatusCode();
+
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Drama>>(jsonResponse);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"API Error: {ex.Message}");
+                return new List<Drama>();
+            }
+        }
+
+        public async Task<List<Drama>> SearchDramasAsync(string query, DramaCategory? category = null, int page = 1, int pageSize = 20)
+        {
+            try
+            {
+                string url = $"{_baseUrl}/dramas/search?query={Uri.EscapeDataString(query)}&page={page}&pageSize={pageSize}";
+
+                if (category.HasValue)
+                {
+                    url += $"&category={category.Value}";
+                }
+
+                var response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Drama>>(jsonResponse);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"API Error: {ex.Message}");
+                return new List<Drama>();
+            }
+        }
     }
 }

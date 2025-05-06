@@ -1,7 +1,7 @@
 using ReelBites.Services;
 using ReelBites.ViewModels;
 
-namespace MicroDrama.Views
+namespace ReelBites.Views
 {
     [QueryProperty(nameof(UserId), "id")]
     public partial class ProfilePage : ContentPage

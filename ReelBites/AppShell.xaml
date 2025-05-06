@@ -7,7 +7,7 @@
        Shell.NavBarIsVisible="False">
 
     <TabBar>
-        <Tab Title="Home" Icon="home_icon.png">
+        <Tab Title="Homhe" Icon="home_icon.png">
             <ShellContent ContentTemplate="{DataTemplate views:HomePage}"/>
         </Tab>
 
@@ -19,21 +19,21 @@
             <ShellContent ContentTemplate="{DataTemplate views:CreateDramaPage}"/>
         </Tab>
 
-        <Tab Title="Notifications" Icon="notifications_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate views:NotificationsPage}"/>
-        </Tab>
+        <!--Tab Title="Notifications" Icon="notifications_icon.png" -->
+            <!--ShellContent ContentTemplate="{DataTemplate views:NotificationsPage}"/-->
+        <!--/Tab-->
 
-        <Tab Title="Profile" Icon="profile_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}"/>
-        </Tab>
+        <!--Tab Title="Profile" Icon="profile_icon.png" -->
+        <!--ShellContent ContentTemplate="{DataTemplate views:ProfilePage}"/ -->
+        <!--/Tab-->
     </TabBar>
 
     <!-- Additional non-tabbed routes -->
-    <ShellContent Route="login" ContentTemplate="{DataTemplate views:LoginPage}" />
+    <!--<ShellContent Route="login" ContentTemplate="{DataTemplate views:LoginPage}" />
     <ShellContent Route="register" ContentTemplate="{DataTemplate views:RegisterPage}" />
     <ShellContent Route="dramadetails" ContentTemplate="{DataTemplate views:DramaDetailsPage}" />
     <ShellContent Route="editprofile" ContentTemplate="{DataTemplate views:EditProfilePage}" />
     <ShellContent Route="followers" ContentTemplate="{DataTemplate views:FollowersPage}" />
     <ShellContent Route="following" ContentTemplate="{DataTemplate views:FollowingPage}" />
-    <ShellContent Route="settings" ContentTemplate="{DataTemplate views:SettingsPage}" />
+    <ShellContent Route="settings" ContentTemplate="{DataTemplate views:SettingsPage}" />-->
 </Shell>
