@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
 using ReelBites.Models;
+using ReelBites.Data;
 using Newtonsoft.Json;
 
 namespace ReelBites.Services

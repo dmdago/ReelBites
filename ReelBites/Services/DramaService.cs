@@ -179,5 +179,29 @@ namespace ReelBites.Services
                 return new List<Comment>();
             }
         }
+
+        public async Task<bool> AddCommentAsync(Comment comment)
+        {
+            if (!_authService.IsAuthenticated())
+                return false;
+
+            try
+            {
+                // Extraer el ID del drama del objeto Comment
+                string dramaId = comment.DramaId;
+                string userId = _authService.GetCurrentUserId();
+
+                // Asegurar que el userId esté establecido
+                comment.UserId = userId;
+
+                // Llamar a la API
+                return await _dramaApi.AddCommentAsync(dramaId, comment, userId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding comment: {ex.Message}");
+                return false;
+            }
+        }
     }
 }

@@ -20,5 +20,7 @@ namespace ReelBites.Services
         Task<bool> LikeDramaAsync(string id);
         Task<bool> UnlikeDramaAsync(string id);
         Task<List<Comment>> GetCommentsForDramaAsync(string dramaId, int page = 1, int pageSize = 20);
+        Task<bool> AddCommentAsync(Comment comment);
+
     }
 }

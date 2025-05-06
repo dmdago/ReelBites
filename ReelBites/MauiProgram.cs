@@ -3,9 +3,9 @@ using ReelBites.Views;
 using ReelBites.ViewModels;
 using ReelBites.Services;
 using ReelBites.Data;
-using Android.SE.Omapi;
 
-namespace ReelBites
+namespace ReelBites;
+public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
@@ -25,8 +25,11 @@ namespace ReelBites
 
         // Register APIs
         builder.Services.AddSingleton<IDramaApi, DramaApi>();
-        builder.Services.AddSingleton<IUserApi>(provider => new UserApi(provider.GetRequiredService<HttpClient>(), provider.GetRequiredService<IPreferencesService>()));
-        builder.Services.AddSingleton<IAuthApi>(provider => new AuthApi(provider.GetRequiredService<HttpClient>()));
+        builder.Services.AddSingleton<IUserApi>(provider =>
+            new UserApi(provider.GetRequiredService<HttpClient>(),
+                       provider.GetRequiredService<IPreferencesService>()));
+        builder.Services.AddSingleton<IAuthApi>(provider =>
+            new AuthApi(provider.GetRequiredService<HttpClient>()));
 
         // Register services
         builder.Services.AddSingleton<IDramaService, DramaService>();

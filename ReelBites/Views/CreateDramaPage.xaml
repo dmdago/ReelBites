@@ -4,7 +4,7 @@
              xmlns:vm="clr-namespace:ReelBites.ViewModels"
              xmlns:model="clr-namespace:ReelBites.Models"
              x:Class="ReelBites.Views.CreateDramaPage"
-             x:DataType="vm:CreateDramaViewModel"
+             x:DataType="{x:Type vm:CreateDramaViewModel}"
              Title="Create Drama">
 
     <ContentPage.Resources>

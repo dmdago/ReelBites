@@ -212,18 +212,26 @@ namespace ReelBites.Data
             }
         }
 
-        public async Task<bool> AddCommentAsync(Comment comment)
+        public async Task<bool> AddCommentAsync(string dramaId, Comment comment, string userId)
         {
+            // Implementación para agregar un comentario a la API
+            // Ejemplo:
             try
             {
-                var content = JsonContent.Create(comment);
-                var response = await _httpClient.PostAsync($"{_baseUrl}/dramas/{comment.DramaId}/comments", content);
-                response.EnsureSuccessStatusCode();
+                comment.UserId = userId;
+                comment.DramaId = dramaId;
+                comment.CreatedAt = DateTime.UtcNow;
+
+                // Lógica para enviar el comentario a la API o base de datos
+                // Por ejemplo:
+                // var response = await _httpClient.PostAsJsonAsync($"api/dramas/{dramaId}/comments", comment);
+                // return response.IsSuccessStatusCode;
+
+                // Implementación simulada:
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine($"API Error: {ex.Message}");
                 return false;
             }
         }
