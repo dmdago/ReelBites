@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ReelBites.Models;
-
-
-namespace ReelBites.Services
+﻿namespace ReelBites.Services
 {
     public interface IAuthService
     {

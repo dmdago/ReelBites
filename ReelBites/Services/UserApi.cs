@@ -1,14 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http.Json;
-using ReelBites.Models;
 using ReelBites.Data;
-using Newtonsoft.Json;
+using ReelBites.Models;
+using System.Net.Http.Json;
 
 namespace ReelBites.Services
 {

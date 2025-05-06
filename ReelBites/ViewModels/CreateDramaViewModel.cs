@@ -1,7 +1,5 @@
-﻿using IntelliJ.Lang.Annotations;
-using ReelBites.Models;
+﻿using ReelBites.Models;
 using ReelBites.Services;
-using ReelBites.ViewModels;
 using System.Collections.ObjectModel;
 
 namespace ReelBites.ViewModels

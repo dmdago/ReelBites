@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using ReelBites.Views;
-using ReelBites.ViewModels;
-using ReelBites.Services;
 using ReelBites.Data;
+using ReelBites.Services;
+using ReelBites.ViewModels;
+using ReelBites.Views;
 
 namespace ReelBites;
 public static class MauiProgram
