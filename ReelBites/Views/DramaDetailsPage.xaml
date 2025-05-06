@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ReelBites.ViewModels"
+             xmlns:model="clr-namespace:ReelBites.Models"
+             x:Class="ReelBites.Views.DramaDetailsPage"
+             x:DataType="vm:DramaDetailsViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="*, Auto">
+        <ScrollView Grid.Row="0">
+            <StackLayout Padding="0,0,0,15">
+                <!-- Drama Header -->
+                <Image Source="{Binding Drama.CoverImageUrl}" 
+                       Aspect="AspectFill" 
+                       HeightRequest="250"/>
+
+                <Grid Padding="15,10" RowDefinitions="Auto,Auto,Auto,Auto">
+                    <!-- Title, Category and Stats -->
+                    <StackLayout Grid.Row="0" Spacing="5">
+                        <Label Text="{Binding Drama.Title}" 
+                               FontSize="24" 
+                               FontAttributes="Bold"/>
+
+                        <Label Text="{Binding Drama.Category}" 
+                               TextColor="#6200EA" 
+                               FontSize="14"/>
+
+                        <Grid ColumnDefinitions="Auto,Auto,Auto,*" Margin="0,10,0,0">
+                            <Grid Grid.Column="0" ColumnDefinitions="Auto,Auto" Margin="0,0,15,0">
+                                <Image Grid.Column="0"
+                                     Source="heart_icon.png"
+                                     HeightRequest="18"
+                                     WidthRequest="18"
+                                     VerticalOptions="Center"/>
+
+                                <Label Grid.Column="1"
+                                     Text="{Binding Drama.LikesCount}"
+                                     FontSize="14"
+                                     TextColor="Gray"
+                                     VerticalOptions="Center"
+                                     Margin="5,0,0,0" />
+                            </Grid>
+
+                            <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto" Margin="0,0,15,0">
+                                <Image Grid.Column="0"
+                                     Source="comment_icon.png"
+                                     HeightRequest="18"
+                                     WidthRequest="18"
+                                     VerticalOptions="Center"/>
+
+                                <Label Grid.Column="1"
+                                     Text="{Binding Drama.CommentsCount}"
+                                     FontSize="14"
+                                     TextColor="Gray"
+                                     VerticalOptions="Center"
+                                     Margin="5,0,0,0" />
+                            </Grid>
+
+                            <Grid Grid.Column="2" ColumnDefinitions="Auto,Auto">
+                                <Image Grid.Column="0"
+                                     Source="view_icon.png"
+                                     HeightRequest="18"
+                                     WidthRequest="18"
+                                     VerticalOptions="Center"/>
+
+                                <Label Grid.Column="1"
+                                     Text="{Binding Drama.ViewsCount}"
+                                     FontSize="14"
+                                     TextColor="Gray"
+                                     VerticalOptions="Center"
+                                     Margin="5,0,0,0" />
+                            </Grid>
+
+                            <Label Grid.Column="3"
+                                 Text="{Binding Drama.Duration, StringFormat='{0} min'}"
+                                 FontSize="14"
+                                 TextColor="Gray"
+                                 HorizontalOptions="End"
+                                 VerticalOptions="Center" />
+                        </Grid>
+                    </StackLayout>
+
+                    <!-- Author Info -->
+                    <Frame Grid.Row="1" 
+                           Padding="10" 
+                           Margin="0,15,0,0" 
+                           BorderColor="#EEEEEE"
+                           CornerRadius="10"
+                           HasShadow="False">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <Image Grid.Column="0"
+                                   Source="{Binding Drama.Author.ProfilePictureUrl}"
+                                   HeightRequest="40"
+                                   WidthRequest="40"
+                                   VerticalOptions="Center"/>
+
+                            <StackLayout Grid.Column="1" Spacing="0" Margin="10,0">
+                                <Label Text="{Binding Drama.Author.Username}"
+                                       FontAttributes="Bold"
+                                       FontSize="16"/>
+
+                                <Label Text="{Binding Drama.CreatedAt, StringFormat='{0:MMM dd, yyyy}'}"
+                                       TextColor="Gray"
+                                       FontSize="12"/>
+                            </StackLayout>
+
+                            <Button Grid.Column="2"
+                                    Text="Follow"
+                                    Command="{Binding ViewProfileCommand}"
+                                    BackgroundColor="#6200EA"
+                                    TextColor="White"
+                                    CornerRadius="20"
+                                    HeightRequest="36"
+                                    Padding="15,0"
+                                    VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+
+                    <!-- Drama Content -->
+                    <Frame Grid.Row="2" 
+                           Padding="15" 
+                           Margin="0,15,0,0" 
+                           BorderColor="#EEEEEE"
+                           CornerRadius="10"
+                           HasShadow="False">
+                        <Label Text="{Binding Drama.Content}"
+                               LineBreakMode="WordWrap"
+                               FontSize="16"/>
+                    </Frame>
+
+                    <!-- Action Bar -->
+                    <Frame Grid.Row="3" 
+                           Padding="10" 
+                           Margin="0,15,0,0" 
+                           BorderColor="#EEEEEE"
+                           CornerRadius="10"
+                           HasShadow="False">
+                        <Grid ColumnDefinitions="*,*,*">
+                            <Button Grid.Column="0"
+                                    Command="{Binding LikeCommand}"
+                                    BackgroundColor="Transparent"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="FontAwesome"
+                                                    Glyph="&#xf004;"
+                                                    Color="{Binding IsLiked, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#E91E63,#AAAAAA'}"/>
+                                </Button.ImageSource>
+                            </Button>
+
+                            <Button Grid.Column="1"
+                                    Command="{Binding AddCommentCommand}"
+                                    BackgroundColor="Transparent"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="FontAwesome"
+                                                    Glyph="&#xf075;"
+                                                    Color="#AAAAAA"/>
+                                </Button.ImageSource>
+                            </Button>
+
+                            <Button Grid.Column="2"
+                                    Command="{Binding ShareCommand}"
+                                    BackgroundColor="Transparent"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center">
+                                <Button.ImageSource>
+                                    <FontImageSource FontFamily="FontAwesome"
+                                                    Glyph="&#xf064;"
+                                                    Color="#AAAAAA"/>
+                                </Button.ImageSource>
+                            </Button>
+                        </Grid>
+                    </Frame>
+                </Grid>
+
+                <!-- Comments Section -->
+                <Label Text="Comments" 
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       Margin="15,10,0,10"/>
+
+                <CollectionView ItemsSource="{Binding Comments}">
+                    <CollectionView.EmptyView>
+                        <StackLayout Padding="15">
+                            <Label Text="No comments yet. Be the first to comment!"
+                                   HorizontalOptions="Center"
+                                   TextColor="Gray"/>
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Comment">
+                            <Grid Padding="15,10" ColumnDefinitions="Auto,*">
+                                <Image Grid.Column="0"
+                                       Source="{Binding Author.ProfilePictureUrl}"
+                                       HeightRequest="40"
+                                       WidthRequest="40"
+                                       VerticalOptions="Start"/>
+
+                                <StackLayout Grid.Column="1" Margin="10,0,0,0">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Grid.Column="0"
+                                               Text="{Binding Author.Username}"
+                                               FontAttributes="Bold"
+                                               FontSize="14"/>
+
+                                        <Label Grid.Column="1"
+                                               Text="{Binding CreatedAt, StringFormat='{0:MMM dd, yyyy}'}"
+                                               TextColor="Gray"
+                                               FontSize="12"/>
+                                    </Grid>
+
+                                    <Label Text="{Binding Content}"
+                                           LineBreakMode="WordWrap"
+                                           FontSize="14"
+                                           Margin="0,5,0,0"/>
+
+                                    <Grid ColumnDefinitions="Auto,Auto" Margin="0,5,0,0">
+                                        <Button Grid.Column="0"
+                                                Text="Like"
+                                                FontSize="12"
+                                                TextColor="Gray"
+                                                BackgroundColor="Transparent"
+                                                Padding="0"/>
+
+                                        <Button Grid.Column="1"
+                                                Text="Reply"
+                                                FontSize="12"
+                                                TextColor="Gray"
+                                                BackgroundColor="Transparent"
+                                                Margin="10,0,0,0"
+                                                Padding="0"/>
+                                    </Grid>
+                                </StackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                    <CollectionView.Footer>
+                        <Button Text="Load More Comments" 
+                                Command="{Binding LoadMoreCommentsCommand}"
+                                IsVisible="{Binding HasMoreComments}"
+                                BackgroundColor="#6200EA"
+                                TextColor="White"
+                                CornerRadius="20"
+                                HorizontalOptions="Center"
+                                Margin="0,10,0,20"/>
+                    </CollectionView.Footer>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Comment Input Box -->
+        <Grid Grid.Row="1" 
+              ColumnDefinitions="*,Auto" 
+              BackgroundColor="White" 
+              Padding="15,10"
+              VerticalOptions="End">
+            <Frame Grid.Column="0"
+                   Padding="10,0"
+                   BorderColor="#DDDDDD"
+                   CornerRadius="20"
+                   HasShadow="False">
+                <Entry Placeholder="Add a comment..."
+                       Text="{Binding NewCommentText}"
+                       VerticalOptions="Center"
+                       HorizontalOptions="FillAndExpand"/>
+            </Frame>
+
+            <Button Grid.Column="1"
+                    Text="Post"
+                    Command="{Binding AddCommentCommand}"
+                    IsEnabled="{Binding NewCommentText, Converter={StaticResource StringNotEmptyConverter}}"
+                    BackgroundColor="#6200EA"
+                    TextColor="White"
+                    CornerRadius="20"
+                    Margin="10,0,0,0"
+                    Padding="15,0"/>
+        </Grid>
+    </Grid>
+</ContentPage>

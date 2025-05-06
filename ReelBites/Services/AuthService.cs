@@ -1,0 +1,126 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ReelBites.Data;
+
+namespace ReelBites.Services
+{
+    public class AuthService : IAuthService
+    {
+        private readonly IAuthApi _authApi;
+        private readonly IPreferencesService _preferencesService;
+
+        public AuthService(IAuthApi authApi, IPreferencesService preferencesService)
+        {
+            _authApi = authApi;
+            _preferencesService = preferencesService;
+        }
+
+        public async Task<bool> RegisterAsync(string email, string username, string password)
+        {
+            try
+            {
+                string token = await _authApi.RegisterAsync(email, username, password);
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    // Registration succeeded, save token and set user as authenticated
+                    _preferencesService.SetAuthToken(token);
+
+                    // We also need to get the user ID and save it
+                    var userId = await _authApi.ValidateTokenAsync(token) ? token.Split('.')[0] : null;
+                    if (!string.IsNullOrEmpty(userId))
+                    {
+                        _preferencesService.SetUserId(userId);
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Registration error: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> LoginAsync(string email, string password)
+        {
+            try
+            {
+                string token = await _authApi.LoginAsync(email, password);
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    // Login succeeded, save token and set user as authenticated
+                    _preferencesService.SetAuthToken(token);
+
+                    // We also need to get the user ID and save it
+                    var userId = await _authApi.ValidateTokenAsync(token) ? token.Split('.')[0] : null;
+                    if (!string.IsNullOrEmpty(userId))
+                    {
+                        _preferencesService.SetUserId(userId);
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Login error: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> LogoutAsync()
+        {
+            // Clear stored authentication data
+            _preferencesService.ClearAuthToken();
+            _preferencesService.ClearUserId();
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> ForgotPasswordAsync(string email)
+        {
+            try
+            {
+                return await _authApi.ForgotPasswordAsync(email);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Forgot password error: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> ResetPasswordAsync(string token, string newPassword)
+        {
+            try
+            {
+                return await _authApi.ResetPasswordAsync(token, newPassword);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Reset password error: {ex.Message}");
+                return false;
+            }
+        }
+
+        public bool IsAuthenticated()
+        {
+            // Check if we have a stored token
+            string token = _preferencesService.GetAuthToken();
+            return !string.IsNullOrEmpty(token);
+        }
+
+        public string GetCurrentUserId()
+        {
+            return _preferencesService.GetUserId();
+        }
+    }
+}

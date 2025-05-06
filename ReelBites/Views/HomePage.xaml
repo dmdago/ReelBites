@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ReelBites.ViewModels"
+             xmlns:model="clr-namespace:ReelBites.Models"
+             x:Class="ReelBites.Views.HomePage"
+             x:DataType="vm:HomeViewModel"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="DramaCardStyle" TargetType="Frame">
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="8,5" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="HeightRequest" Value="220" />
+            </Style>
+
+            <Style x:Key="SectionHeaderStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Margin" Value="15,10,0,5" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*" RowSpacing="0">
+        <Grid Grid.Row="0" BackgroundColor="#6200EA" Padding="15,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" 
+                   Text="ReelBites" 
+                   FontSize="22" 
+                   FontAttributes="Bold" 
+                   TextColor="White"
+                   VerticalOptions="Center"/>
+
+            <Frame Grid.Column="1"
+                   BackgroundColor="#7F42FF"
+                   CornerRadius="20"
+                   HasShadow="False"
+                   Padding="15,0"
+                   Margin="15,0"
+                   HeightRequest="40"
+                   VerticalOptions="Center">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Image Grid.Column="0"
+                           Source="search_icon.png"
+                           HeightRequest="20"
+                           WidthRequest="20"
+                           VerticalOptions="Center"/>
+                    <Entry Grid.Column="1"
+                           Placeholder="Search Dramas..."
+                           PlaceholderColor="#CCCCCC"
+                           TextColor="White"
+                           VerticalOptions="Center"
+                           BackgroundColor="Transparent"/>
+                </Grid>
+            </Frame>
+
+            <ImageButton Grid.Column="2"
+                         Source="notifications_icon.png"
+                         HeightRequest="24"
+                         WidthRequest="24"
+                         BackgroundColor="Transparent"
+                         VerticalOptions="Center"/>
+        </Grid>
+
+        <RefreshView Grid.Row="1" 
+                     Command="{Binding RefreshCommand}" 
+                     IsRefreshing="{Binding IsBusy}">
+            <ScrollView>
+                <StackLayout Spacing="0">
+                    <!-- For You Section -->
+                    <Label Text="For You" 
+                           Style="{StaticResource SectionHeaderStyle}" />
+
+                    <CollectionView ItemsSource="{Binding RecommendedDramas}"
+                                  SelectionMode="Single"
+                                  SelectionChangedCommand="{Binding DramaTappedCommand}"
+                                  SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.EmptyView>
+                            <StackLayout HorizontalOptions="CenterAndExpand" 
+                                       VerticalOptions="CenterAndExpand">
+                                <Label Text="No dramas found"
+                                     HorizontalOptions="CenterAndExpand"
+                                     TextColor="Gray" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Drama">
+                                <Frame Style="{StaticResource DramaCardStyle}" WidthRequest="160">
+                                    <Grid RowDefinitions="*, Auto, Auto">
+                                        <Image Grid.Row="0"
+                                             Source="{Binding CoverImageUrl}"
+                                             Aspect="AspectFill"
+                                             HeightRequest="120"/>
+
+                                        <Grid Grid.Row="1" Padding="10,5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <Label Grid.Row="0"
+                                                 Text="{Binding Title}"
+                                                 FontAttributes="Bold"
+                                                 LineBreakMode="TailTruncation"
+                                                 MaxLines="1" />
+
+                                            <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+                                                <Image Grid.Column="0"
+                                                     Source="{Binding Author.ProfilePictureUrl}"
+                                                     HeightRequest="20"
+                                                     WidthRequest="20"
+                                                     VerticalOptions="Center"/>
+
+                                                <Label Grid.Column="1"
+                                                     Text="{Binding Author.Username}"
+                                                     FontSize="12"
+                                                     TextColor="Gray"
+                                                     VerticalOptions="Center"
+                                                     Margin="5,0,0,0" />
+                                            </Grid>
+                                        </Grid>
+
+                                        <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto" Padding="10,0,10,10">
+                                            <Grid Grid.Column="0" ColumnDefinitions="Auto,Auto" Margin="0,0,15,0">
+                                                <Image Grid.Column="0"
+                                                     Source="heart_icon.png"
+                                                     HeightRequest="16"
+                                                     WidthRequest="16"
+                                                     VerticalOptions="Center"/>
+
+                                                <Label Grid.Column="1"
+                                                     Text="{Binding LikesCount}"
+                                                     FontSize="12"
+                                                     TextColor="Gray"
+                                                     VerticalOptions="Center"
+                                                     Margin="3,0,0,0" />
+                                            </Grid>
+
+                                            <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto">
+                                                <Image Grid.Column="0"
+                                                     Source="comment_icon.png"
+                                                     HeightRequest="16"
+                                                     WidthRequest="16"
+                                                     VerticalOptions="Center"/>
+
+                                                <Label Grid.Column="1"
+                                                     Text="{Binding CommentsCount}"
+                                                     FontSize="12"
+                                                     TextColor="Gray"
+                                                     VerticalOptions="Center"
+                                                     Margin="3,0,0,0" />
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                        <CollectionView.Footer>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="0,0,0,10">
+                                <Button Text="Load More" 
+                                      Command="{Binding LoadMoreRecommendedCommand}"
+                                      IsVisible="{Binding HasMoreItems}"
+                                      BackgroundColor="#6200EA"
+                                      TextColor="White"
+                                      CornerRadius="20"/>
+                            </StackLayout>
+                        </CollectionView.Footer>
+                    </CollectionView>
+
+                    <!-- Trending Section -->
+                    <Label Text="Trending" 
+                           Style="{StaticResource SectionHeaderStyle}" 
+                           Margin="15,20,0,5"/>
+
+                    <CollectionView ItemsSource="{Binding TrendingDramas}"
+                                  SelectionMode="Single"
+                                  SelectionChangedCommand="{Binding DramaTappedCommand}"
+                                  SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.EmptyView>
+                            <StackLayout HorizontalOptions="CenterAndExpand" 
+                                       VerticalOptions="CenterAndExpand">
+                                <Label Text="No trending dramas"
+                                     HorizontalOptions="CenterAndExpand"
+                                     TextColor="Gray" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Drama">
+                                <Frame Style="{StaticResource DramaCardStyle}" HeightRequest="130">
+                                    <Grid ColumnDefinitions="Auto,*">
+                                        <Image Grid.Column="0"
+                                             Source="{Binding CoverImageUrl}"
+                                             Aspect="AspectFill"
+                                             WidthRequest="100"
+                                             HeightRequest="130"/>
+
+                                        <Grid Grid.Column="1" Padding="10" RowDefinitions="Auto,Auto,*,Auto">
+                                            <Label Grid.Row="0"
+                                                 Text="{Binding Title}"
+                                                 FontAttributes="Bold"
+                                                 FontSize="16"
+                                                 LineBreakMode="TailTruncation"
+                                                 MaxLines="1" />
+
+                                            <Label Grid.Row="1"
+                                                 Text="{Binding Category}"
+                                                 FontSize="12"
+                                                 TextColor="#6200EA"/>
+
+                                            <Grid Grid.Row="2" ColumnDefinitions="Auto,*">
+                                                <Image Grid.Column="0"
+                                                     Source="{Binding Author.ProfilePictureUrl}"
+                                                     HeightRequest="24"
+                                                     WidthRequest="24"
+                                                     VerticalOptions="Center"/>
+
+                                                <Label Grid.Column="1"
+                                                     Text="{Binding Author.Username}"
+                                                     FontSize="14"
+                                                     VerticalOptions="Center"
+                                                     Margin="5,0,0,0" />
+                                            </Grid>
+
+                                            <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto,Auto,*">
+                                                <Grid Grid.Column="0" ColumnDefinitions="Auto,Auto" Margin="0,0,15,0">
+                                                    <Image Grid.Column="0"
+                                                         Source="heart_icon.png"
+                                                         HeightRequest="16"
+                                                         WidthRequest="16"
+                                                         VerticalOptions="Center"/>
+
+                                                    <Label Grid.Column="1"
+                                                         Text="{Binding LikesCount}"
+                                                         FontSize="12"
+                                                         TextColor="Gray"
+                                                         VerticalOptions="Center"
+                                                         Margin="3,0,0,0" />
+                                                </Grid>
+
+                                                <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto" Margin="0,0,15,0">
+                                                    <Image Grid.Column="0"
+                                                         Source="comment_icon.png"
+                                                         HeightRequest="16"
+                                                         WidthRequest="16"
+                                                         VerticalOptions="Center"/>
+
+                                                    <Label Grid.Column="1"
+                                                         Text="{Binding CommentsCount}"
+                                                         FontSize="12"
+                                                         TextColor="Gray"
+                                                         VerticalOptions="Center"
+                                                         Margin="3,0,0,0" />
+                                                </Grid>
+
+                                                <Grid Grid.Column="2" ColumnDefinitions="Auto,Auto">
+                                                    <Image Grid.Column="0"
+                                                         Source="view_icon.png"
+                                                         HeightRequest="16"
+                                                         WidthRequest="16"
+                                                         VerticalOptions="Center"/>
+
+                                                    <Label Grid.Column="1"
+                                                         Text="{Binding ViewsCount}"
+                                                         FontSize="12"
+                                                         TextColor="Gray"
+                                                         VerticalOptions="Center"
+                                                         Margin="3,0,0,0" />
+                                                </Grid>
+
+                                                <Label Grid.Column="3"
+                                                     Text="{Binding Duration, StringFormat='{0} min'}"
+                                                     FontSize="12"
+                                                     TextColor="Gray"
+                                                     HorizontalOptions="End"
+                                                     VerticalOptions="Center" />
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                        <CollectionView.Footer>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="0,0,0,20">
+                                <Button Text="Load More" 
+                                      Command="{Binding LoadMoreTrendingCommand}"
+                                      IsVisible="{Binding HasMoreItems}"
+                                      BackgroundColor="#6200EA"
+                                      TextColor="White"
+                                      CornerRadius="20"/>
+                            </StackLayout>
+                        </CollectionView.Footer>
+                    </CollectionView>
+                </StackLayout>
+            </ScrollView>
+        </RefreshView>
+    </Grid>
+</ContentPage> "

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ReelBites.ViewModels"
+             xmlns:model="clr-namespace:ReelBites.Models"
+             x:Class="ReelBites.Views.ProfilePage"
+             x:DataType="vm:ProfileViewModel"
+             Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="DramaCardStyle" TargetType="Frame">
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="8,5" />
+                <Setter Property="BackgroundColor" Value="White" />
+            </Style>
+
+            <Style x:Key="StatLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="#333333" />
+            </Style>
+
+            <Style x:Key="StatDescriptionStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="#666666" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Profile Header -->
+        <StackLayout Grid.Row="0" BackgroundColor="#6200EA" Padding="0,0,0,20">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto" Padding="15,10">
+                <!-- Profile Image and Edit Button -->
+                <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto">
+                    <Image Grid.Column="0"
+                           Source="{Binding User.ProfilePictureUrl}"
+                           HeightRequest="80"
+                           WidthRequest="80"
+                           Aspect="AspectFill"
+                           VerticalOptions="Center">
+                        <Image.Clip>
+                            <EllipseGeometry Center="40,40" RadiusX="40" RadiusY="40" />
+                        </Image.Clip>
+                    </Image>
+
+                    <StackLayout Grid.Column="1" VerticalOptions="Center" Margin="15,0">
+                        <Label Text="{Binding User.Username}"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="White"/>
+
+                        <Label Text="{Binding User.JoinDate, StringFormat='Joined {0:MMMM yyyy}'}"
+                               FontSize="12"
+                               TextColor="#E0E0E0"/>
+                    </StackLayout>
+
+                    <Button Grid.Column="2"
+                            Text="{Binding IsCurrentUser, Converter={StaticResource BoolToStringConverter}, ConverterParameter='Edit Profile,Follow'}"
+                            Command="{Binding IsCurrentUser, Converter={StaticResource BoolToCommandConverter}, ConverterParameter='{Binding EditProfileCommand},{Binding FollowCommand}'}"
+                            BackgroundColor="{Binding IsCurrentUser, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#FFFFFF,#FF4081'}"
+                            TextColor="{Binding IsCurrentUser, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#6200EA,#FFFFFF'}"
+                            CornerRadius="20"
+                            Padding="15,5"
+                            HeightRequest="36"
+                            VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Bio -->
+                <Label Grid.Row="1"
+                       Text="{Binding User.Bio}"
+                       TextColor="White"
+                       Margin="0,15,0,0"
+                       LineBreakMode="WordWrap"/>
+
+                <!-- Stats -->
+                <Grid Grid.Row="2" ColumnDefinitions="*,*,*" Margin="0,20,0,0">
+                    <StackLayout Grid.Column="0" Spacing="0">
+                        <Label Text="{Binding User.DramasCount}"
+                               Style="{StaticResource StatLabelStyle}"
+                               TextColor="White"/>
+                        <Label Text="Dramas"
+                               Style="{StaticResource StatDescriptionStyle}"
+                               TextColor="#E0E0E0"/>
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="1" Spacing="0">
+                        <Label Text="{Binding User.FollowersCount}"
+                               Style="{StaticResource StatLabelStyle}"
+                               TextColor="White"/>
+                        <Label Text="Followers"
+                               Style="{StaticResource StatDescriptionStyle}"
+                               TextColor="#E0E0E0">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ViewFollowersCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="2" Spacing="0">
+                        <Label Text="{Binding User.FollowingCount}"
+                               Style="{StaticResource StatLabelStyle}"
+                               TextColor="White"/>
+                        <Label Text="Following"
+                               Style="{StaticResource StatDescriptionStyle}"
+                               TextColor="#E0E0E0">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ViewFollowingCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                </Grid>
+
+                <!-- Tabs -->
+                <Grid Grid.Row="3" ColumnDefinitions="*,*" Margin="0,20,0,0">
+                    <Button Grid.Column="0"
+                            Text="Dramas"
+                            BackgroundColor="#7F42FF"
+                            TextColor="White"
+                            CornerRadius="0"
+                            Margin="0"/>
+
+                    <Button Grid.Column="1"
+                            Text="Liked"
+                            BackgroundColor="#6200EA"
+                            TextColor="#E0E0E0"
+                            CornerRadius="0"
+                            Margin="0"/>
+                </Grid>
+            </Grid>
+        </StackLayout>
+
+        <!-- Dramas Grid -->
+        <RefreshView Grid.Row="1" 
+                     Command="{Binding LoadDramasCommand}" 
+                     IsRefreshing="{Binding IsBusy}">
+            <CollectionView ItemsSource="{Binding UserDramas}"
+                          SelectionMode="Single"
+                          SelectionChangedCommand="{Binding DramaTappedCommand}"
+                          SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" 
+                                   Span="2"
+                                   VerticalItemSpacing="10"
+                                   HorizontalItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.EmptyView>
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
+                        <Label Text="No dramas published yet"
+                             HorizontalOptions="Center"
+                             TextColor="Gray"/>
+
+                        <Button Text="Create Your First Drama"
+                              IsVisible="{Binding IsCurrentUser}"
+                              BackgroundColor="#6200EA"
+                              TextColor="White"
+                              CornerRadius="20"
+                              Margin="0,15,0,0"
+                              Padding="15,10"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Drama">
+                        <Frame Style="{StaticResource DramaCardStyle}" HeightRequest="200">
+                            <Grid RowDefinitions="*, Auto">
+                                <Image Grid.Row="0"
+                                     Source="{Binding CoverImageUrl}"
+                                     Aspect="AspectFill"
+                                     HeightRequest="130"/>
+
+                                <Grid Grid.Row="1" Padding="10,8" RowDefinitions="Auto,Auto">
+                                    <Label Grid.Row="0"
+                                         Text="{Binding Title}"
+                                         FontAttributes="Bold"
+                                         LineBreakMode="TailTruncation"
+                                         MaxLines="1" />
+
+                                    <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto" Margin="0,5,0,0">
+                                        <Grid Grid.Column="0" ColumnDefinitions="Auto,Auto" Margin="0,0,15,0">
+                                            <Image Grid.Column="0"
+                                                 Source="heart_icon.png"
+                                                 HeightRequest="16"
+                                                 WidthRequest="16"
+                                                 VerticalOptions="Center"/>
+
+                                            <Label Grid.Column="1"
+                                                 Text="{Binding LikesCount}"
+                                                 FontSize="12"
+                                                 TextColor="Gray"
+                                                 VerticalOptions="Center"
+                                                 Margin="3,0,0,0" />
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto">
+                                            <Image Grid.Column="0"
+                                                 Source="comment_icon.png"
+                                                 HeightRequest="16"
+                                                 WidthRequest="16"
+                                                 VerticalOptions="Center"/>
+
+                                            <Label Grid.Column="1"
+                                                 Text="{Binding CommentsCount}"
+                                                 FontSize="12"
+                                                 TextColor="Gray"
+                                                 VerticalOptions="Center"
+                                                 Margin="3,0,0,0" />
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.Footer>
+                    <Button Text="Load More" 
+                          Command="{Binding LoadMoreDramasCommand}"
+                          IsVisible="{Binding HasMoreItems}"
+                          BackgroundColor="#6200EA"
+                          TextColor="White"
+                          CornerRadius="20"
+                          HorizontalOptions="Center"
+                          Margin="0,10,0,20"/>
+                </CollectionView.Footer>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

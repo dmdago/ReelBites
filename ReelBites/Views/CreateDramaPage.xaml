@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ReelBites.ViewModels"
+             xmlns:model="clr-namespace:ReelBites.Models"
+             x:Class="ReelBites.Views.CreateDramaPage"
+             x:DataType="vm:CreateDramaViewModel"
+             Title="Create Drama">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SectionTitleStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="Margin" Value="0,15,0,5" />
+            </Style>
+
+            <Style x:Key="InputFrameStyle" TargetType="Frame">
+                <Setter Property="Padding" Value="15,10" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="BorderColor" Value="#DDDDDD" />
+                <Setter Property="CornerRadius" Value="5" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Header -->
+        <Grid Grid.Row="0" 
+              BackgroundColor="#6200EA" 
+              Padding="15,10">
+            <Label Text="Create a New Drama" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+        </Grid>
+
+        <!-- Main Content -->
+        <ScrollView Grid.Row="1">
+            <StackLayout Padding="20,15">
+                <!-- Cover Image -->
+                <Label Text="Cover Image" Style="{StaticResource SectionTitleStyle}"/>
+
+                <Frame HeightRequest="200" 
+                       Padding="0" 
+                       HasShadow="False"
+                       BorderColor="#DDDDDD">
+                    <Grid>
+                        <Image Source="{Binding CoverImageUrl}" 
+                               Aspect="AspectFill"
+                               IsVisible="{Binding CoverImageUrl, Converter={StaticResource StringNotEmptyConverter}}"/>
+
+                        <StackLayout VerticalOptions="Center" 
+                                     HorizontalOptions="Center"
+                                     IsVisible="{Binding CoverImageUrl, Converter={StaticResource StringEmptyConverter}}">
+                            <Image Source="upload_icon.png" 
+                                   HeightRequest="50"
+                                   WidthRequest="50"/>
+                            <Label Text="Upload Cover Image" 
+                                   FontSize="14"
+                                   TextColor="Gray"/>
+                        </StackLayout>
+
+                        <Button Text="Choose Image"
+                                Command="{Binding ChooseImageCommand}"
+                                BackgroundColor="#6200EA"
+                                TextColor="White"
+                                CornerRadius="20"
+                                Padding="15,8"
+                                VerticalOptions="End"
+                                HorizontalOptions="End"
+                                Margin="15"/>
+                    </Grid>
+                </Frame>
+
+                <!-- Title -->
+                <Label Text="Title" Style="{StaticResource SectionTitleStyle}"/>
+
+                <Frame Style="{StaticResource InputFrameStyle}">
+                    <Entry Text="{Binding Title}"
+                           Placeholder="Enter a catchy title"
+                           MaxLength="100"/>
+                </Frame>
+
+                <!-- Category -->
+                <Label Text="Category" Style="{StaticResource SectionTitleStyle}"/>
+
+                <Frame Style="{StaticResource InputFrameStyle}">
+                    <Picker SelectedItem="{Binding SelectedCategory}"
+                            ItemsSource="{Binding Categories}"
+                            Title="Select a category"/>
+                </Frame>
+
+                <!-- Tags -->
+                <Label Text="Tags (Optional)" Style="{StaticResource SectionTitleStyle}"/>
+
+                <Frame Style="{StaticResource InputFrameStyle}">
+                    <Entry Text="{Binding Tags}"
+                           Placeholder="Separate tags with commas (e.g., love, friendship)"
+                           MaxLength="200"/>
+                </Frame>
+
+                <!-- Content -->
+                <Label Text="Drama Content" Style="{StaticResource SectionTitleStyle}"/>
+
+                <Frame Style="{StaticResource InputFrameStyle}" HeightRequest="250">
+                    <Editor Text="{Binding Content}"
+                            Placeholder="Write your drama here..."
+                            AutoSize="TextChanges"/>
+                </Frame>
+
+                <!-- Duration -->
+                <Label Text="Estimated Duration (minutes)" Style="{StaticResource SectionTitleStyle}"/>
+
+                <Frame Style="{StaticResource InputFrameStyle}">
+                    <Stepper Value="{Binding Duration}"
+                             Minimum="1"
+                             Maximum="30"
+                             Increment="1"
+                             HorizontalOptions="Start"/>
+                </Frame>
+
+                <!-- Premium Content -->
+                <Grid ColumnDefinitions="*,Auto" Margin="0,15,0,0">
+                    <Label Grid.Column="0"
+                           Text="Make this Premium Content"
+                           VerticalOptions="Center"/>
+
+                    <Switch Grid.Column="1"
+                            IsToggled="{Binding IsPremium}"
+                            OnColor="#6200EA"/>
+                </Grid>
+
+                <Label Text="Premium content is only available to subscribers"
+                       TextColor="Gray"
+                       FontSize="12"
+                       IsVisible="{Binding IsPremium}"/>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Bottom Action Bar -->
+        <Grid Grid.Row="2" 
+              ColumnDefinitions="*,*" 
+              BackgroundColor="White" 
+              Padding="15,10">
+            <Button Grid.Column="0"
+                    Text="Preview"
+                    Command="{Binding PreviewCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#6200EA"
+                    BorderColor="#6200EA"
+                    BorderWidth="1"
+                    CornerRadius="20"
+                    Margin="5"/>
+
+            <Button Grid.Column="1"
+                    Text="Publish"
+                    Command="{Binding PublishCommand}"
+                    IsEnabled="{Binding CanPublish}"
+                    BackgroundColor="#6200EA"
+                    TextColor="White"
+                    CornerRadius="20"
+                    Margin="5"/>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:ReelBites.Views"
+       x:Class="ReelBites.AppShell"
+       FlyoutBehavior="Disabled"
+       Shell.NavBarIsVisible="False">
+
+    <TabBar>
+        <Tab Title="Home" Icon="home_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:HomePage}"/>
+        </Tab>
+
+        <Tab Title="Explore" Icon="explore_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ExplorePage}"/>
+        </Tab>
+
+        <Tab Title="Create" Icon="add_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:CreateDramaPage}"/>
+        </Tab>
+
+        <Tab Title="Notifications" Icon="notifications_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:NotificationsPage}"/>
+        </Tab>
+
+        <Tab Title="Profile" Icon="profile_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}"/>
+        </Tab>
+    </TabBar>
+
+    <!-- Additional non-tabbed routes -->
+    <ShellContent Route="login" ContentTemplate="{DataTemplate views:LoginPage}" />
+    <ShellContent Route="register" ContentTemplate="{DataTemplate views:RegisterPage}" />
+    <ShellContent Route="dramadetails" ContentTemplate="{DataTemplate views:DramaDetailsPage}" />
+    <ShellContent Route="editprofile" ContentTemplate="{DataTemplate views:EditProfilePage}" />
+    <ShellContent Route="followers" ContentTemplate="{DataTemplate views:FollowersPage}" />
+    <ShellContent Route="following" ContentTemplate="{DataTemplate views:FollowingPage}" />
+    <ShellContent Route="settings" ContentTemplate="{DataTemplate views:SettingsPage}" />
+</Shell>
