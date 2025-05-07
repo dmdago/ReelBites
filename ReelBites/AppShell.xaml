@@ -19,9 +19,9 @@
             <ShellContent ContentTemplate="{DataTemplate views:CreateDramaPage}"/>
         </Tab>
 
-        <!--Tab Title="Notifications" Icon="notifications_icon.png" -->
-            <!--ShellContent ContentTemplate="{DataTemplate views:NotificationsPage}"/-->
-        <!--/Tab-->
+        <Tab Title="Notifications" Icon="notifications_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:NotificationsPage}" />
+            </Tab>
 
         <!--Tab Title="Profile" Icon="profile_icon.png" -->
         <!--ShellContent ContentTemplate="{DataTemplate views:ProfilePage}"/ -->

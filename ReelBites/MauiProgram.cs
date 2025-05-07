@@ -35,16 +35,18 @@ public static class MauiProgram
         builder.Services.AddSingleton<IDramaService, DramaService>();
         builder.Services.AddSingleton<IUserService, UserService>();
         builder.Services.AddSingleton<IAuthService, AuthService>();
+        builder.Services.AddSingleton<INotificationService, NotificationService>();
+
 
         // Register viewmodels
         builder.Services.AddTransient<HomeViewModel>();
         builder.Services.AddTransient<DramaDetailsViewModel>();
         builder.Services.AddTransient<ProfileViewModel>();
-        //builder.Services.AddTransient<CreateDramaViewModel>();
+        builder.Services.AddTransient<CreateDramaViewModel>();
         builder.Services.AddTransient<ExploreViewModel>();
-        //builder.Services.AddTransient<NotificationsViewModel>();
-        //builder.Services.AddTransient<LoginViewModel>();
-        //builder.Services.AddTransient<RegisterViewModel>();
+        builder.Services.AddTransient<NotificationsViewModel>();
+        builder.Services.AddTransient<LoginViewModel>();
+        builder.Services.AddTransient<RegisterViewModel>();
         //builder.Services.AddTransient<EditProfileViewModel>();
         //builder.Services.AddTransient<FollowersViewModel>();
         //builder.Services.AddTransient<FollowingViewModel>();
@@ -55,10 +57,10 @@ public static class MauiProgram
         builder.Services.AddTransient<DramaDetailsPage>();
         builder.Services.AddTransient<ProfilePage>();
         builder.Services.AddTransient<CreateDramaPage>();
-        //builder.Services.AddTransient<ExplorePage>();
-        //builder.Services.AddTransient<NotificationsPage>();
-        //builder.Services.AddTransient<LoginPage>();
-        //builder.Services.AddTransient<RegisterPage>();
+        builder.Services.AddTransient<ExplorePage>();
+        builder.Services.AddTransient<NotificationsPage>();
+        builder.Services.AddTransient<LoginPage>();
+        builder.Services.AddTransient<RegisterPage>();
         //builder.Services.AddTransient<EditProfilePage>();
         //builder.Services.AddTransient<FollowersPage>();
         //builder.Services.AddTransient<FollowingPage>();

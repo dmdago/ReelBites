@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ReelBites.ViewModels"
+             x:Class="ReelBites.Views.LoginPage"
+             x:DataType="{x:Type vm:LoginViewModel}"
+             Shell.NavBarIsVisible="False"
+             Title="Login">
+
+    <Grid>
+        <!-- Fondo con degradado -->
+        <Rectangle Fill="#6200EA" VerticalOptions="Start" HeightRequest="300" />
+
+        <ScrollView>
+            <VerticalStackLayout Padding="30,0" Spacing="25" VerticalOptions="Center">
+                <!-- Logo y Título -->
+                <StackLayout Spacing="10" HorizontalOptions="Center" Margin="0,0,0,20">
+                    <Image Source="app_icon.png" HeightRequest="100" WidthRequest="100" />
+                    <Label Text="ReelBites" FontSize="32" FontAttributes="Bold" TextColor="#6200EA" HorizontalOptions="Center" />
+                    <Label Text="Sign in to continue" FontSize="18" TextColor="Gray" HorizontalOptions="Center" />
+                </StackLayout>
+
+                <!-- Formulario de Login -->
+                <Frame BorderColor="#DDDDDD" CornerRadius="10" HasShadow="True" Padding="20">
+                    <StackLayout Spacing="20">
+                        <!-- Email -->
+                        <StackLayout>
+                            <Label Text="Email" FontSize="14" TextColor="Gray" />
+                            <Frame BorderColor="#DDDDDD" Padding="10,0" CornerRadius="5" HasShadow="False">
+                                <Entry Text="{Binding Email}" 
+                                       Placeholder="Enter your email" 
+                                       Keyboard="Email"
+                                       ReturnType="Next" />
+                            </Frame>
+                        </StackLayout>
+
+                        <!-- Password -->
+                        <StackLayout>
+                            <Label Text="Password" FontSize="14" TextColor="Gray" />
+                            <Frame BorderColor="#DDDDDD" Padding="10,0" CornerRadius="5" HasShadow="False">
+                                <Entry Text="{Binding Password}" 
+                                       Placeholder="Enter your password" 
+                                       IsPassword="True"
+                                       ReturnType="Done"
+                                       ReturnCommand="{Binding LoginCommand}" />
+                            </Frame>
+                        </StackLayout>
+
+                        <!-- Remember & Forgot Password -->
+                        <Grid ColumnDefinitions="*,*">
+                            <CheckBox Grid.Column="0" 
+                                      IsChecked="{Binding RememberMe}" 
+                                      Color="#6200EA" 
+                                      VerticalOptions="Center" />
+                            <Label Grid.Column="0" 
+                                   Text="Remember me" 
+                                   VerticalOptions="Center" 
+                                   Margin="35,0,0,0" />
+                            <Label Grid.Column="1" 
+                                   Text="Forgot Password?" 
+                                   TextColor="#6200EA" 
+                                   HorizontalOptions="End" 
+                                   VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+
+                        <!-- Error Message -->
+                        <Label Text="{Binding ErrorMessage}" 
+                               IsVisible="{Binding HasError}" 
+                               TextColor="#E91E63" 
+                               FontSize="14" 
+                               HorizontalOptions="Center" />
+
+                        <!-- Login Button -->
+                        <Button Text="SIGN IN" 
+                                Command="{Binding LoginCommand}"
+                                IsEnabled="{Binding CanLogin}"
+                                BackgroundColor="#6200EA"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="25"
+                                HeightRequest="50" />
+                    </StackLayout>
+                </Frame>
+
+                <!-- Social Login -->
+                <StackLayout Spacing="15">
+                    <Label Text="Or sign in with" 
+                           HorizontalOptions="Center" 
+                           FontSize="14" 
+                           TextColor="Gray" />
+
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                        <Button Text="Google" 
+                                Command="{Binding GoogleLoginCommand}"
+                                BackgroundColor="White"
+                                TextColor="#DB4437"
+                                BorderColor="#DB4437"
+                                BorderWidth="1"
+                                CornerRadius="20"
+                                WidthRequest="120" />
+
+                        <Button Text="Facebook" 
+                                Command="{Binding FacebookLoginCommand}"
+                                BackgroundColor="White"
+                                TextColor="#3b5998"
+                                BorderColor="#3b5998"
+                                BorderWidth="1"
+                                CornerRadius="20"
+                                WidthRequest="120" />
+                    </HorizontalStackLayout>
+                </StackLayout>
+
+                <!-- Register Link -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                    <Label Text="Don't have an account?" 
+                           VerticalOptions="Center" 
+                           TextColor="Gray" />
+                    <Label Text="Register" 
+                           FontAttributes="Bold" 
+                           TextColor="#6200EA" 
+                           VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding RegisterCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

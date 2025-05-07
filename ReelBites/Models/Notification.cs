@@ -1,4 +1,5 @@
-﻿namespace ReelBites.Models
+﻿
+namespace ReelBites.Models
 {
     public class Notification
     {
@@ -8,7 +9,7 @@
         public NotificationType Type { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsRead { get; set; }
-        public string RelatedItemId { get; set; } // ID de un drama, comentario, etc.
+        public string RelatedItemId { get; set; } // ID de un drama, comentario, usuario, etc.
     }
 
     public enum NotificationType
