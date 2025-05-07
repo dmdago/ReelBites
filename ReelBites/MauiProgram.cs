@@ -50,7 +50,7 @@ public static class MauiProgram
         builder.Services.AddTransient<EditProfileViewModel>();
         builder.Services.AddTransient<FollowersViewModel>();
         builder.Services.AddTransient<FollowingViewModel>();
-        //builder.Services.AddTransient<SettingsViewModel>();
+        builder.Services.AddTransient<SettingsViewModel>();
 
         // Register pages
         builder.Services.AddTransient<HomePage>();
@@ -64,7 +64,7 @@ public static class MauiProgram
         builder.Services.AddTransient<EditProfilePage>();
         builder.Services.AddTransient<FollowersPage>();
         builder.Services.AddTransient<FollowingPage>();
-        //builder.Services.AddTransient<SettingsPage>();
+        builder.Services.AddTransient<SettingsPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

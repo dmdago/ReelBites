@@ -10,5 +10,9 @@
         string GetUserId();
         void SetUserId(string userId);
         void ClearUserId();
+        bool IsAutoplayEnabled();
+        void SetAutoplay(bool enabled);
+        string GetLanguage();
+        void SetLanguage(string language);
     }
 }

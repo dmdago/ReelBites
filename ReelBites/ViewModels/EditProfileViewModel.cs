@@ -383,11 +383,11 @@ namespace ReelBites.ViewModels
                 string password = await Application.Current.MainPage.DisplayPromptAsync(
                     "Confirm Password",
                     "Please enter your password to confirm account deletion",
-                    "Delete", "Cancel",
-                    placeholder: "Password",
-                    maxLength: 50,
+                    "Delete",
+                    "Cancel",
+                    "Password",
                     keyboard: Keyboard.Default,
-                    isPassword: true);
+                    maxLength: 50);
 
                 if (!string.IsNullOrEmpty(password))
                 {
