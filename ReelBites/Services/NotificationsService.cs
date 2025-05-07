@@ -1,7 +1,6 @@
-﻿using ReelBites.Models;
-using System.Net.Http.Json;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using ReelBites.Data;
+using ReelBites.Models;
 
 namespace ReelBites.Services
 {

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ReelBites.ViewModels"
+             xmlns:model="clr-namespace:ReelBites.Models"
+             x:Class="ReelBites.Views.FollowersPage"
+             x:DataType="{x:Type vm:FollowersViewModel}"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Barra de búsqueda -->
+        <Grid Grid.Row="0" 
+              BackgroundColor="#6200EA" 
+              Padding="15,10">
+            <Frame BackgroundColor="#7F42FF"
+                   CornerRadius="20"
+                   HasShadow="False"
+                   Padding="15,0"
+                   HeightRequest="40"
+                   VerticalOptions="Center">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Image Grid.Column="0"
+                           Source="search_icon.png"
+                           HeightRequest="20"
+                           WidthRequest="20"
+                           VerticalOptions="Center"/>
+                    <Entry Grid.Column="1"
+                           Text="{Binding SearchQuery}"
+                           Placeholder="Search followers..."
+                           PlaceholderColor="#CCCCCC"
+                           TextColor="White"
+                           VerticalOptions="Center"
+                           BackgroundColor="Transparent"
+                           ReturnCommand="{Binding SearchCommand}"/>
+                </Grid>
+            </Frame>
+        </Grid>
+
+        <!-- Lista de seguidores -->
+        <RefreshView Grid.Row="1" 
+                     Command="{Binding LoadFollowersCommand}" 
+                     IsRefreshing="{Binding IsBusy}">
+            <CollectionView ItemsSource="{Binding Followers}"
+                          SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <StackLayout VerticalOptions="Center" 
+                               HorizontalOptions="Center" 
+                               Padding="20">
+                        <Image Source="followers_empty.png"
+                               HeightRequest="100"
+                               WidthRequest="100"/>
+                        <Label Text="{Binding EmptyMessage}"
+                               FontSize="18"
+                               TextColor="Gray"
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type model:User}">
+                        <Grid Padding="15,10" ColumnDefinitions="Auto,*,Auto">
+                            <!-- Foto de perfil -->
+                            <Frame Grid.Column="0"
+                                   HeightRequest="50"
+                                   WidthRequest="50"
+                                   CornerRadius="25"
+                                   Padding="0"
+                                   IsClippedToBounds="True"
+                                   HasShadow="False">
+                                <Image Source="{Binding ProfilePictureUrl}"
+                                       Aspect="AspectFill"/>
+                            </Frame>
+
+                            <!-- Información de usuario -->
+                            <StackLayout Grid.Column="1" 
+                                       VerticalOptions="Center" 
+                                       Spacing="2" 
+                                       Margin="15,0,0,0">
+                                <Grid ColumnDefinitions="Auto,Auto">
+                                    <Label Grid.Column="0"
+                                         Text="{Binding Username}"
+                                         FontAttributes="Bold"
+                                         FontSize="16"/>
+                                    <Image Grid.Column="1"
+                                         Source="verified_icon.png"
+                                         HeightRequest="16"
+                                         WidthRequest="16"
+                                         IsVisible="{Binding IsVerified}"
+                                         VerticalOptions="Center"
+                                         Margin="5,0,0,0"/>
+                                </Grid>
+                                <Label Text="{Binding FullName}"
+                                     TextColor="Gray"
+                                     FontSize="14"
+                                     LineBreakMode="TailTruncation"/>
+                            </StackLayout>
+
+                            <!-- Botón de seguir/dejar de seguir -->
+                            <Button Grid.Column="2"
+                                  Text="{Binding IsFollowing, Converter={StaticResource BoolToStringConverter}, ConverterParameter='Following,Follow'}"
+                                  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FollowersViewModel}}, Path=ToggleFollowCommand}"
+                                  CommandParameter="{Binding}"
+                                  BackgroundColor="{Binding IsFollowing, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#EEEEEE,#6200EA'}"
+                                  TextColor="{Binding IsFollowing, Converter={StaticResource BoolToColorConverter}, ConverterParameter='#6200EA,White'}"
+                                  FontSize="14"
+                                  CornerRadius="15"
+                                  Padding="15,5"
+                                  HeightRequest="30"
+                                  VerticalOptions="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.Footer>
+                    <StackLayout Padding="0,10,0,20" IsVisible="{Binding HasMoreFollowers}">
+                        <Button Text="Load More"
+                                Command="{Binding LoadMoreCommand}"
+                                BackgroundColor="#6200EA"
+                                TextColor="White"
+                                CornerRadius="20"
+                                HorizontalOptions="Center"/>
+                    </StackLayout>
+                </CollectionView.Footer>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

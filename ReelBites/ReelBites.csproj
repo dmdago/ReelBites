@@ -84,6 +84,12 @@
 	  <Compile Update="Views\EditProfilePage.xaml.cs">
 	    <DependentUpon>EditProfilePage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\FollowersPage.xaml.cs">
+	    <DependentUpon>FollowersPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\FollowingPage.xaml.cs">
+	    <DependentUpon>FollowingPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\RegisterPage.xaml.cs">
 	    <DependentUpon>RegisterPage.xaml</DependentUpon>
 	  </Compile>
@@ -106,6 +112,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\EditProfilePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FollowersPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FollowingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\RegisterPage.xaml">

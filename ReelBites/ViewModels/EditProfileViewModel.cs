@@ -1,7 +1,7 @@
-﻿using ReelBites.Models;
+﻿using ReelBites.Data;
+using ReelBites.Models;
 using ReelBites.Services;
 using System.Text.RegularExpressions;
-using ReelBites.Data;
 
 namespace ReelBites.ViewModels
 {

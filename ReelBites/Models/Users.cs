@@ -25,5 +25,6 @@ namespace ReelBites.Models
         public string Website { get; set; }
         public string Location { get; set; }
         public List<string> Interests { get; set; }
+        public bool IsFollowing { get; set; }
     }
 }
