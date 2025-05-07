@@ -1,6 +1,7 @@
 ﻿using ReelBites.Models;
 using ReelBites.Services;
 using System.Collections.ObjectModel;
+using static System.Net.WebRequestMethods;
 
 namespace ReelBites.ViewModels
 {
@@ -245,7 +246,7 @@ namespace ReelBites.ViewModels
                 {
                     Title = Drama?.Title,
                     Text = $"Check out this amazing micro drama: {Drama?.Title}",
-                    Uri = $"https://microdrama.com/dramas/{DramaId}"
+                    Uri = "https://dmdago.com/rb/dramas/{DramaId}"
                 });
             }
             catch (Exception ex)

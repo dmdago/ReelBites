@@ -8,7 +8,7 @@ namespace ReelBites.Data
     public class DramaApi : IDramaApi
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "https://api.microdrama.com/v1";
+        private readonly string _baseUrl = "https://dmdago.com/rb";
         private readonly IPreferencesService _preferencesService;
 
         public DramaApi(HttpClient httpClient, IPreferencesService preferencesService)

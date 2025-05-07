@@ -8,7 +8,7 @@ namespace ReelBites.Services
     public class UserApi : IUserApi
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "https://api.microdrama.com/v1/users";
+        private readonly string _baseUrl = "https://dmdago.com/rb/users";
         private readonly IPreferencesService _preferencesService;
 
         public UserApi(HttpClient httpClient, IPreferencesService preferencesService)

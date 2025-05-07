@@ -16,7 +16,7 @@ namespace ReelBites.Services
     public class NotificationService : INotificationService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "https://api.reelbites.com/v1";
+        private readonly string _baseUrl = "https://dmdago.com/rb";
         private readonly IPreferencesService _preferencesService;
 
         public NotificationService(HttpClient httpClient, IPreferencesService preferencesService)

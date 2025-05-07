@@ -7,7 +7,7 @@ namespace ReelBites.Services
     public class AuthApi : IAuthApi
     {
         private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "https://api.microdrama.com/v1/auth";
+        private readonly string _baseUrl = "https://dmdago.com/rb/auth";
 
         public AuthApi(HttpClient httpClient)
         {

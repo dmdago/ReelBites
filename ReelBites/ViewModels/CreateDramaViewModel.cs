@@ -149,7 +149,7 @@ namespace ReelBites.ViewModels
 
                     // In a real app, you would upload this to a server and get back the URL
                     // For this example, we'll just set a placeholder URL
-                    CoverImageUrl = "https://api.microdrama.com/uploads/covers/placeholder.jpg";
+                    CoverImageUrl = "https://dmdago.com/uploads/covers/placeholder.jpg";
 
                     // Simulate uploading the image
                     await Task.Delay(1000);

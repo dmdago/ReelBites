@@ -335,7 +335,7 @@ namespace ReelBites.ViewModels
 
                     // En una implementación real, aquí subirías la imagen a un servidor
                     // y recibirías la URL. Por ahora, simulamos una URL
-                    ProfileImage = "https://api.reelbites.com/profiles/avatar123.jpg";
+                    ProfileImage = "https://dmdago.com/rb/profiles/avatar123.jpg";
                     HasUnsavedChanges = true;
                     SaveCommand.ChangeCanExecute();
                 }
