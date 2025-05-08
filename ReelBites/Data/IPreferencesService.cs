@@ -14,5 +14,7 @@
         void SetAutoplay(bool enabled);
         string GetLanguage();
         void SetLanguage(string language);
+        bool IsGuestMode();
+        void SetIsGuestMode(bool isGuest);
     }
 }

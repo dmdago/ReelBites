@@ -65,5 +65,16 @@
         {
             Preferences.Set(LanguageKey, language ?? "English");
         }
+        private const string GuestModeKey = "guest_mode";
+
+        public bool IsGuestMode()
+        {
+            return Preferences.Get(GuestModeKey, false);
+        }
+
+        public void SetIsGuestMode(bool isGuest)
+        {
+            Preferences.Set(GuestModeKey, isGuest);
+        }
     }
 }

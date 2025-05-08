@@ -38,7 +38,7 @@ public static class MauiProgram
         // Register viewmodels
         builder.Services.AddTransient<HomeViewModel>(provider => new HomeViewModel(
             provider.GetRequiredService<IDramaService>(),
-            provider.GetRequiredService<IAuthService>() 
+            provider.GetRequiredService<IAuthService>()
         )); builder.Services.AddTransient<DramaDetailsViewModel>();
         builder.Services.AddTransient<ProfileViewModel>();
         builder.Services.AddTransient<CreateDramaViewModel>();

@@ -1,6 +1,4 @@
 ﻿using ReelBites.Services;
-using ReelBites.ViewModels;
-using ReelBites.Views;
 
 namespace ReelBites
 {

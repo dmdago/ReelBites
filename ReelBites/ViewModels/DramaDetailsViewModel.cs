@@ -1,7 +1,6 @@
 ﻿using ReelBites.Models;
 using ReelBites.Services;
 using System.Collections.ObjectModel;
-using static System.Net.WebRequestMethods;
 
 namespace ReelBites.ViewModels
 {

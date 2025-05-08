@@ -6,6 +6,7 @@ namespace ReelBites.Services
     {
         private readonly IAuthApi _authApi;
         private readonly IPreferencesService _preferencesService;
+        private bool _isGuestMode = false;
 
         public AuthService(IAuthApi authApi, IPreferencesService preferencesService)
         {
@@ -73,7 +74,6 @@ namespace ReelBites.Services
 
         public async Task<bool> LogoutAsync()
         {
-            // Clear stored authentication data
             _preferencesService.ClearAuthToken();
             _preferencesService.ClearUserId();
 
@@ -108,6 +108,16 @@ namespace ReelBites.Services
 
         public bool IsAuthenticated()
         {
+            // Si está en modo invitado, considerar como "autenticado" para navegación,
+            // pero con permisos limitados
+            if (_isGuestMode || _preferencesService.IsGuestMode())
+            {
+                _isGuestMode = true;
+                return true;
+            }
+
+            // Verificación normal de token
+            return !string.IsNullOrEmpty(_preferencesService.GetAuthToken());
             string token = _preferencesService.GetAuthToken();
             return !string.IsNullOrEmpty(token);
         }
@@ -115,6 +125,18 @@ namespace ReelBites.Services
         public string GetCurrentUserId()
         {
             return _preferencesService.GetUserId();
+        }
+        public bool IsGuestMode()
+        {
+            return _isGuestMode;
+        }
+
+        public async Task LoginAsGuestAsync()
+        {
+            _isGuestMode = true;
+            // No establecer token de autenticación
+            // pero posiblemente guardar este estado en preferencias
+            _preferencesService.SetIsGuestMode(true);
         }
     }
 }

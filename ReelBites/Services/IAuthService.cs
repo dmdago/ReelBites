@@ -9,5 +9,7 @@
         Task<bool> ResetPasswordAsync(string token, string newPassword);
         bool IsAuthenticated();
         string GetCurrentUserId();
+        bool IsGuestMode();
+        Task LoginAsGuestAsync();
     }
 }

@@ -9,24 +9,24 @@
 
     <Grid>
         <!-- Fondo con degradado -->
-        <Rectangle Fill="#6200EA" VerticalOptions="Start" HeightRequest="300" />
+        <Rectangle Fill="#030303" VerticalOptions="Start" HeightRequest="300" />
 
         <ScrollView>
             <VerticalStackLayout Padding="30,0" Spacing="25" VerticalOptions="Center">
                 <!-- Logo y Título -->
                 <StackLayout Spacing="10" HorizontalOptions="Center" Margin="0,0,0,20">
                     <Image Source="app_icon.png" HeightRequest="100" WidthRequest="100" />
-                    <Label Text="ReelBites" FontSize="32" FontAttributes="Bold" TextColor="#6200EA" HorizontalOptions="Center" />
+                    <Label Text="ReelBites" FontSize="32" FontAttributes="Bold" TextColor="DarkRed" HorizontalOptions="Center" />
                     <Label Text="Sign in to continue" FontSize="18" TextColor="Gray" HorizontalOptions="Center" />
                 </StackLayout>
 
                 <!-- Formulario de Login -->
-                <Frame BorderColor="#DDDDDD" CornerRadius="10" HasShadow="True" Padding="20">
+                <Frame BorderColor="#DDDDDD" CornerRadius="10" HasShadow="True" Padding="20" BackgroundColor="#000000">
                     <StackLayout Spacing="20">
                         <!-- Email -->
                         <StackLayout>
                             <Label Text="Email" FontSize="14" TextColor="Gray" />
-                            <Frame BorderColor="#DDDDDD" Padding="10,0" CornerRadius="5" HasShadow="False">
+                            <Frame BorderColor="#DDDDDD" Padding="10,0" CornerRadius="5" HasShadow="False"  BackgroundColor="Black">
                                 <Entry Text="{Binding Email}" 
                                        Placeholder="Enter your email" 
                                        Keyboard="Email"
@@ -37,7 +37,7 @@
                         <!-- Password -->
                         <StackLayout>
                             <Label Text="Password" FontSize="14" TextColor="Gray" />
-                            <Frame BorderColor="#DDDDDD" Padding="10,0" CornerRadius="5" HasShadow="False">
+                            <Frame BorderColor="#DDDDDD" Padding="10,0" CornerRadius="5" HasShadow="False" BackgroundColor="Black" >
                                 <Entry Text="{Binding Password}" 
                                        Placeholder="Enter your password" 
                                        IsPassword="True"
@@ -51,11 +51,13 @@
                             <CheckBox Grid.Column="0" 
                                       IsChecked="{Binding RememberMe}" 
                                       Color="#6200EA" 
-                                      VerticalOptions="Center" />
+                                      VerticalOptions="Center"
+                                      Margin="-135,0,0,0" />
                             <Label Grid.Column="0" 
                                    Text="Remember me" 
                                    VerticalOptions="Center" 
-                                   Margin="35,0,0,0" />
+                                   TextColor="#6200EA" 
+                                   Margin="25,0,0,0" />
                             <Label Grid.Column="1" 
                                    Text="Forgot Password?" 
                                    TextColor="#6200EA" 
@@ -96,7 +98,7 @@
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                         <Button Text="Google" 
                                 Command="{Binding GoogleLoginCommand}"
-                                BackgroundColor="White"
+                                BackgroundColor="#000000"
                                 TextColor="#DB4437"
                                 BorderColor="#DB4437"
                                 BorderWidth="1"
@@ -105,7 +107,7 @@
 
                         <Button Text="Facebook" 
                                 Command="{Binding FacebookLoginCommand}"
-                                BackgroundColor="White"
+                                BackgroundColor="#000000"
                                 TextColor="#3b5998"
                                 BorderColor="#3b5998"
                                 BorderWidth="1"
@@ -116,7 +118,20 @@
 
                 <!-- Register Link -->
                 <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
-                    <Label Text="Don't have an account?" 
+                    <BoxView HeightRequest="1" 
+                         Color="#DDDDDD" 
+                         HorizontalOptions="Fill" 
+                         Margin="0,20,0,20" />
+                    <Button Text="Create Account" 
+                        Command="{Binding RegisterCommand}"
+                        BackgroundColor="Transparent" 
+                        TextColor="#ffffff" 
+                        BorderColor="#ffffff" 
+                        BorderWidth="1" 
+                        CornerRadius="20" 
+                        Margin="0,0" 
+                        Padding="15,10" />
+                    <!--Label Text="Don't have an account?" 
                            VerticalOptions="Center" 
                            TextColor="Gray" />
                     <Label Text="Register" 
@@ -126,8 +141,22 @@
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding RegisterCommand}" />
                         </Label.GestureRecognizers>
-                    </Label>
+                    </Label-->
+                    <BoxView HeightRequest="1" 
+                         Color="#DDDDDD" 
+                         HorizontalOptions="Fill" 
+                         Margin="0,20,0,20" />
+                    <Button Text="Continue as Guest" 
+                        Command="{Binding GuestLoginCommand}"
+                        BackgroundColor="Transparent" 
+                        TextColor="#ffffff" 
+                        BorderColor="#ffffff" 
+                        BorderWidth="1" 
+                        CornerRadius="20" 
+                        Margin="20,0" 
+                        Padding="15,10" />
                 </HorizontalStackLayout>
+                
             </VerticalStackLayout>
         </ScrollView>
     </Grid>

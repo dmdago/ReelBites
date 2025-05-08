@@ -1,5 +1,5 @@
-﻿using ReelBites.Services;
-using ReelBites.Data;
+﻿using ReelBites.Data;
+using ReelBites.Services;
 using System.Reflection;
 
 namespace ReelBites.ViewModels

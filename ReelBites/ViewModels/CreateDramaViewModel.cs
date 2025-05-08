@@ -190,6 +190,18 @@ namespace ReelBites.ViewModels
 
         public async Task<bool> PublishDrama()
         {
+            // Verificar si el usuario es invitado
+            if (_authService.IsGuestMode())
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Feature Restricted",
+                    "Publishing dramas is only available to registered users. Would you like to create an account?",
+                    "Sign Up", "Cancel");
+
+                // Navegar a registro si el usuario elige "Sign Up"
+                await Shell.Current.GoToAsync("//register");
+                return false;
+            }
             if (IsBusy)
                 return false;
 

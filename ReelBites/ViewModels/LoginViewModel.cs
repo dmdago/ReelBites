@@ -12,6 +12,8 @@ namespace ReelBites.ViewModels
         private bool _rememberMe;
         private string _errorMessage;
         private bool _hasError;
+        public Command GuestLoginCommand { get; }
+
 
         public string Email
         {
@@ -69,6 +71,8 @@ namespace ReelBites.ViewModels
             FacebookLoginCommand = new Command(async () => await FacebookLogin());
             ForgotPasswordCommand = new Command(async () => await ForgotPassword());
             RegisterCommand = new Command(async () => await Register());
+            GuestLoginCommand = new Command(async () => await LoginAsGuest());
+
 
             // Inicializar valores
             Email = string.Empty;
@@ -280,6 +284,39 @@ namespace ReelBites.ViewModels
         public bool IsUserLoggedIn()
         {
             return _authService.IsAuthenticated();
+        }
+
+        private async Task LoginAsGuest()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
+            try
+            {
+                // Puedes usar el servicio de autenticación para establecer un estado "invitado"
+                // o simplemente navegar a la página principal sin autenticación real
+
+                // Opción 1: Usando un token especial para invitados
+                // await _authService.LoginAsGuestAsync();
+
+                // Opción 2: Simplemente navegar a la página principal
+                await Shell.Current.GoToAsync("//main");
+
+                // Opcional: mostrar un banner o tooltip indicando modo invitado
+                // await Application.Current.MainPage.DisplayAlert("Guest Mode", "You are browsing as a guest. Some features may be limited.", "OK");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Guest login error: {ex.Message}");
+                ErrorMessage = "An error occurred. Please try again.";
+                HasError = true;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }
