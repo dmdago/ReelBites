@@ -16,15 +16,10 @@ public partial class HomePage : ContentPage
     {
         base.OnAppearing();
 
-        // Load data when the page appears if it's not already loaded
-        if (_viewModel.TrendingDramas.Count == 0)
+        // Si el usuario no está autenticado, redirigir a la página de login
+        if (!_viewModel.IsUserLoggedIn())
         {
-            _viewModel.LoadTrendingCommand.Execute(null);
-        }
-
-        if (_viewModel.RecommendedDramas.Count == 0)
-        {
-            _viewModel.LoadRecommendedCommand.Execute(null);
+            Shell.Current.GoToAsync("//login");
         }
     }
 }

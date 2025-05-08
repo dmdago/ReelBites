@@ -25,11 +25,8 @@ public static class MauiProgram
 
         // Register APIs
         builder.Services.AddSingleton<IDramaApi, DramaApi>();
-        builder.Services.AddSingleton<IUserApi>(provider =>
-            new UserApi(provider.GetRequiredService<HttpClient>(),
-                       provider.GetRequiredService<IPreferencesService>()));
-        builder.Services.AddSingleton<IAuthApi>(provider =>
-            new AuthApi(provider.GetRequiredService<HttpClient>()));
+        builder.Services.AddSingleton<IUserApi>(provider => new UserApi(provider.GetRequiredService<HttpClient>(), provider.GetRequiredService<IPreferencesService>()));
+        builder.Services.AddSingleton<IAuthApi>(provider => new AuthApi(provider.GetRequiredService<HttpClient>()));
 
         // Register services
         builder.Services.AddSingleton<IDramaService, DramaService>();
@@ -39,8 +36,10 @@ public static class MauiProgram
 
 
         // Register viewmodels
-        builder.Services.AddTransient<HomeViewModel>();
-        builder.Services.AddTransient<DramaDetailsViewModel>();
+        builder.Services.AddTransient<HomeViewModel>(provider => new HomeViewModel(
+            provider.GetRequiredService<IDramaService>(),
+            provider.GetRequiredService<IAuthService>() 
+        )); builder.Services.AddTransient<DramaDetailsViewModel>();
         builder.Services.AddTransient<ProfileViewModel>();
         builder.Services.AddTransient<CreateDramaViewModel>();
         builder.Services.AddTransient<ExploreViewModel>();

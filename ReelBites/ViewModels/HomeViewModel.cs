@@ -10,6 +10,7 @@ namespace ReelBites.ViewModels
         private int _currentPage = 1;
         private bool _isLoadingMore = false;
         private bool _hasMoreItems = true;
+        private readonly IAuthService _authService;
 
         public ObservableCollection<Drama> TrendingDramas { get; }
         public ObservableCollection<Drama> RecommendedDramas { get; }
@@ -21,10 +22,11 @@ namespace ReelBites.ViewModels
         public Command RefreshCommand { get; }
         public Command<Drama> DramaTappedCommand { get; }
 
-        public HomeViewModel(IDramaService dramaService)
+        public HomeViewModel(IDramaService dramaService, IAuthService authService)
         {
             Title = "Home";
             _dramaService = dramaService;
+            _authService = authService;
 
             TrendingDramas = new ObservableCollection<Drama>();
             RecommendedDramas = new ObservableCollection<Drama>();
@@ -170,6 +172,10 @@ namespace ReelBites.ViewModels
 
             // Navigate to drama details page
             Shell.Current.GoToAsync($"dramadetails?id={drama.Id}");
+        }
+        public bool IsUserLoggedIn()
+        {
+            return _authService.IsAuthenticated();
         }
     }
 }

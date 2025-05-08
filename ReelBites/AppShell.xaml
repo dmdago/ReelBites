@@ -6,8 +6,10 @@
        FlyoutBehavior="Disabled"
        Shell.NavBarIsVisible="False">
 
-    <TabBar>
-        <Tab Title="Homhe" Icon="home_icon.png">
+    <ShellContent Route="login" ContentTemplate="{DataTemplate views:LoginPage}" FlyoutItemIsVisible="False" />
+
+    <TabBar Route="main">
+        <Tab Title="Home" Icon="home_icon.png">
             <ShellContent ContentTemplate="{DataTemplate views:HomePage}"/>
         </Tab>
 
@@ -29,11 +31,11 @@
     </TabBar>
 
     <!-- Additional non-tabbed routes -->
-    <ShellContent Route="login" ContentTemplate="{DataTemplate views:LoginPage}" />
     <ShellContent Route="register" ContentTemplate="{DataTemplate views:RegisterPage}" />
     <ShellContent Route="dramadetails" ContentTemplate="{DataTemplate views:DramaDetailsPage}" />
     <ShellContent Route="editprofile" ContentTemplate="{DataTemplate views:EditProfilePage}" />
     <ShellContent Route="followers" ContentTemplate="{DataTemplate views:FollowersPage}" />
     <ShellContent Route="following" ContentTemplate="{DataTemplate views:FollowingPage}" />
     <ShellContent Route="settings" ContentTemplate="{DataTemplate views:SettingsPage}" />
+    <ShellContent Title="Home" ContentTemplate="{DataTemplate views:HomePage}" Route="home" />
 </Shell>

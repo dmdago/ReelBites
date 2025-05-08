@@ -129,7 +129,7 @@ namespace ReelBites.ViewModels
                     }
 
                     // Navegar a la página principal
-                    await Shell.Current.GoToAsync("//home");
+                    await Shell.Current.GoToAsync("//main");
                 }
                 else
                 {
@@ -168,7 +168,7 @@ namespace ReelBites.ViewModels
 
                 if (success)
                 {
-                    await Shell.Current.GoToAsync("//home");
+                    await Shell.Current.GoToAsync("//main");
                 }
                 else
                 {
@@ -204,7 +204,7 @@ namespace ReelBites.ViewModels
 
                 if (success)
                 {
-                    await Shell.Current.GoToAsync("//home");
+                    await Shell.Current.GoToAsync("//main");
                 }
                 else
                 {

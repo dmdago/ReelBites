@@ -16,6 +16,7 @@
             Routing.RegisterRoute("settings", typeof(Views.SettingsPage));
             Routing.RegisterRoute("login", typeof(Views.LoginPage));
             Routing.RegisterRoute("register", typeof(Views.RegisterPage));
+            Routing.RegisterRoute("main", typeof(Views.HomePage));
         }
     }
 }

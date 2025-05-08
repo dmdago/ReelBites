@@ -108,7 +108,6 @@ namespace ReelBites.Services
 
         public bool IsAuthenticated()
         {
-            // Check if we have a stored token
             string token = _preferencesService.GetAuthToken();
             return !string.IsNullOrEmpty(token);
         }
